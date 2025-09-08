@@ -1,13 +1,10 @@
 .project-table-wrapper { 
-  padding: 20px;    // allow full width
-  overflow-x: auto; 
-  background-color: aqua; // wrapper scrolls on small screens
+  padding: 20px;   
+  overflow-x: auto;  
 }
 
 .project-table {
-    // 👈 matches scroll.x so it will overflow
-  background: rgb(165, 29, 29);
-
+  background: rgb(255, 255, 255);
   .ant-table {
     border-radius: 12px;
   }
