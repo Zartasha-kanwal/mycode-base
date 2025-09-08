@@ -1,149 +1,118 @@
-"use client"; 
+"use client";
 
 import React from "react";
-import { Table, Tag, Progress } from "antd";
+import { Table, Avatar, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
-import "./Table.scss";
 
-interface ProjectData {
-  key: number;
-  project: string;
-  status: "Pending" | "Due" | "Blocked" | "Suspended";
-  manager: string;
-  progress: number;
-  trend: "up" | "down";
+interface Customer {
+  key: string;
+  no: number;
+  name: string;
+  phone: string;
+  email: string;
+  status: "Active" | "Waiting" | "Failed" | string;
 }
-const data: ProjectData[] = [
+
+const data: Customer[] = [
   {
-    key: 1,
-    project: "TWLT",
-    status: "Pending",
-    manager: "Amery Lee",
-    progress: 60,
-    trend: "up",
+    key: "1",
+    no: 1,
+    name: "Jhon Doe",
+    phone: "+1 324-234-2333",
+    email: "Jhondoe1@gmail.com",
+    status: "Waiting",
   },
   {
-    key: 2,
-    project: "A16Z",
-    status: "Due",
-    manager: "Romayne Carlyn",
-    progress: 40,
-    trend: "up",
+    key: "2",
+    no: 2,
+    name: "Anna Nestrom",
+    phone: "+1 324-234-2333",
+    email: "Jhondoe2@gmail.com",
+    status: "Active",
   },
   {
-    key: 3,
-    project: "DARK",
-    status: "Due",
-    manager: "Marybeth Joanna",
-    progress: 75,
-    trend: "down",
-  },
-  {
-    key: 4,
-    project: "Q300",
-    status: "Blocked",
-    manager: "Jonah Benny",
-    progress: 30,
-    trend: "up",
-  },
-  {
-    key: 5,
-    project: "RVNG",
-    status: "Suspended",
-    manager: "Daly Royle",
-    progress: 55,
-    trend: "down",
-  },
-  {
-    key: 6,
-    project: "FDSA",
-    status: "Suspended",
-    manager: "Jane Swift",
-    progress: 65,
-    trend: "down",
+    key: "3",
+    no: 3,
+    name: "Sophia Reynolds",
+    phone: "+1 324-234-2333",
+    email: "Jhondoe3@gmail.com",
+    status: "Failed",
   },
 ];
 
-const statusColors: Record<ProjectData["status"], string> = {
-  Pending: "green",
-  Due: "blue",
-  Blocked: "red",
-  Suspended: "orange",
+// Avatar colors
+const colors = [
+  "#1677ff",
+  "#52c41a",
+  "#fa8c16",
+  "#eb2f96",
+  "#13c2c2",
+  "#722ed1",
+];
+const getColor = (name: string) => {
+  const hash = name
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return colors[hash % colors.length];
 };
-const columns: ColumnsType<ProjectData> = [
-  {
-    title: "Sr",
-    dataIndex: "key",
-    key: "key",
-  },
-  {
-    title: "Project",
-    dataIndex: "project",
-    key: "project",
-    render: (text, record) => (
-      <span className="project-cell">
-        {record.trend === "up" ? (
-          <ArrowUpOutlined style={{ color: "green", marginRight: 6 }} />
-        ) : (
-          <ArrowDownOutlined style={{ color: "red", marginRight: 6 }} />
-        )}
-        {text}
-      </span>
-    ),
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
-    render: (status: ProjectData["status"]) => (
-      <Tag color={statusColors[status]}>{status}</Tag>
-    ),
-  },
 
-  {
-    title: "Manager",
-    dataIndex: "manager",
-    key: "manager",
-  },
-  {
-    title: "Progress",
-    dataIndex: "progress",
-    key: "progress",
-    render: (progress, record) => {
-      let color;
-      switch (record.status) {
-        case "Pending":
-          color = "#52c41a"; // green
-          break;
-        case "Due":
-          color = "#1890ff"; // blue
-          break;
-        case "Blocked":
-          color = "#ff4d4f"; // red
-          break;
-        case "Suspended":
-          color = "#faad14"; // orange
-          break;
-        default:
-          color = "#722323"; // orange
-      }
-      return (
-        <Progress percent={progress} showInfo={false} strokeColor={color} />
-      );
-    },
-  },
-];
+// Status color
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case "Active":
+      return "green";
+    case "Waiting":
+      return "orange";
+    case "Failed":
+      return "cyan"; // aqua-ish
+    default:
+      return "blue"; // fallback
+  }
+};
 
 const TableComponent: React.FC = () => {
+  const columns: ColumnsType<Customer> = [
+    { title: "No.", dataIndex: "no", key: "no", width: 100 },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: 250,
+      render: (text: string) => (
+        <div className="customer-name">
+          <Avatar
+            style={{ backgroundColor: getColor(text), marginRight: "8px" }}
+          >
+            {text
+              .split(" ")
+              .map((n) => n[0])
+              .join("")}
+          </Avatar>
+          <span>{text}</span>
+        </div>
+      ),
+    },
+    { title: "Phone No.", dataIndex: "phone", key: "phone", width: 200 },
+    { title: "Email", dataIndex: "email", key: "email", width: 300 },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      width: 150,
+      render: (status: Customer["status"]) => (
+        <Tag color={getStatusColor(status)}>{status}</Tag>
+      ),
+    },
+  ];
+
   return (
-    <div className="project-table">
+    <div className="project-table-wrapper">
       <Table
-        dataSource={data}
+        className="project-table"
         columns={columns}
-        pagination={false}
-        rowClassName="custom-row"
-        scroll={{ x: "max-content" }} 
+        dataSource={data}
+        pagination={{ pageSize: 5 }}
+        scroll={{ x: 1000 }}
       />
     </div>
   );
