@@ -1,0 +1,130 @@
+$primary: #1677ff;
+$primary-gradient: linear-gradient(135deg, #1677ff, #4e9bff);
+$bg-light: #f5f7fa;
+$text-dark: #1e293b;
+
+.layout {
+  min-height: 100vh;
+  background: $bg-light;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $primary-gradient;
+  padding: 0 2rem;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1) !important;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
+    cursor: default;
+
+    color: #f6ffed;
+
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+
+    &:hover {
+      letter-spacing: 1px;
+      transform: scale(1.02);
+    }
+  }
+
+  .userMenu {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 0.75rem;
+
+    span {
+      font-weight: 500;
+      color: white;
+    }
+  }
+}
+
+.content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pageCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  > h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    color: #1e293b !important;
+    border-left: 6px solid #1677ff;
+    border-radius: 0 12px 12px 0;
+    background: rgba(22, 119, 255, 0.1);
+  }
+}
+
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 768px) {
+  .content {
+    margin-top: 3rem;
+    padding: 0.5rem;    
+    gap: 3rem;       
+  }
+
+  .pageCard {
+    padding: 0.75rem; 
+
+    > h1 {
+      font-size: 1.25rem;   
+      padding: 1rem 0.75rem; 
+    }
+  }
+}
+
+
+
+/* Status Badges */
+.status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: capitalize;
+
+  &.waiting {
+    background: #fff7e6;
+    color: #d48806;
+  }
+
+  &.active {
+    background: #f6ffed;
+    color: #389e0d;
+  }
+
+  &.failed {
+    background: #fff1f0;
+    color: #cf1322;
+  }
+}

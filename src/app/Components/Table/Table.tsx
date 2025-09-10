@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import { Table, Avatar, Tag } from "antd";
+import { Table as AntTable, Avatar, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import "./Table.scss";
 
-interface Customer {
+export interface Customer {
   key: string;
   no: number;
   name: string;
@@ -13,46 +14,10 @@ interface Customer {
   status: "Active" | "Waiting" | "Failed" | string;
 }
 
-const data: Customer[] = [
-  {
-    key: "1",
-    no: 1,
-    name: "Jhon Doe",
-    phone: "+1 324-234-2333",
-    email: "Jhondoe1@gmail.com",
-    status: "Waiting",
-  },
-  {
-    key: "2",
-    no: 2,
-    name: "Anna Nestrom",
-    phone: "+1 324-234-2333",
-    email: "Jhondoe2@gmail.com",
-    status: "Active",
-  },
-  {
-    key: "3",
-    no: 3,
-    name: "Sophia Reynolds",
-    phone: "+1 324-234-2333",
-    email: "Jhondoe3@gmail.com",
-    status: "Failed",
-  },
-];
-
 // Avatar colors
-const colors = [
-  "#1677ff",
-  "#52c41a",
-  "#fa8c16",
-  "#eb2f96",
-  "#13c2c2",
-  "#722ed1",
-];
+const colors = ["#1677ff", "#52c41a", "#fa8c16", "#eb2f96", "#13c2c2", "#722ed1"];
 const getColor = (name: string) => {
-  const hash = name
-    .split("")
-    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const hash = name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
   return colors[hash % colors.length];
 };
 
@@ -64,13 +29,17 @@ const getStatusColor = (status: string) => {
     case "Waiting":
       return "orange";
     case "Failed":
-      return "cyan"; // aqua-ish
+      return "red";
     default:
-      return "blue"; // fallback
+      return "blue";
   }
 };
 
-const TableComponent: React.FC = () => {
+interface Props {
+  data: Customer[];
+}
+
+const TableComponent: React.FC<Props> = ({ data }) => {
   const columns: ColumnsType<Customer> = [
     { title: "No.", dataIndex: "no", key: "no", width: 100 },
     {
@@ -80,9 +49,7 @@ const TableComponent: React.FC = () => {
       width: 250,
       render: (text: string) => (
         <div className="customer-name">
-          <Avatar
-            style={{ backgroundColor: getColor(text), marginRight: "8px" }}
-          >
+          <Avatar style={{ backgroundColor: getColor(text), marginRight: 8 }}>
             {text
               .split(" ")
               .map((n) => n[0])
@@ -107,7 +74,7 @@ const TableComponent: React.FC = () => {
 
   return (
     <div className="project-table-wrapper">
-      <Table
+      <AntTable
         className="project-table"
         columns={columns}
         dataSource={data}
@@ -119,3 +86,5 @@ const TableComponent: React.FC = () => {
 };
 
 export default TableComponent;
+
+

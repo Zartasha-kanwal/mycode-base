@@ -1,27 +1,24 @@
-.project-table-wrapper { 
-  padding: 20px;   
-  overflow-x: auto;  
+.project-table-wrapper {
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.customer-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .project-table {
-  background: rgb(255, 255, 255);
-  .ant-table {
-    border-radius: 12px;
+  .ant-table-thead > tr > th {
+    font-weight: 600;
+    background: #fafafa;
+    text-transform: uppercase;
   }
 
-  .customer-name {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    .ant-avatar {
-      flex-shrink: 0;
-    }
-  }
-
-  .ant-tag {
-    border-radius: 20px;
-    padding: 2px 12px;
-    font-size: 0.85rem;
+  .ant-table-tbody > tr:hover > td {
+    background: #f0f5ff !important;
   }
 }
