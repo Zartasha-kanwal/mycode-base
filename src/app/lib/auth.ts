@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 export interface User {
   email: string;
   password: string;
@@ -16,7 +14,7 @@ export const auth = {
       throw new Error("Email already exists");
     }
 
-    // derive name if not provided
+    // derive name
     const firstPart = user.email.split("@")[0];
     const displayName = user.name || firstPart;
 
@@ -24,7 +22,7 @@ export const auth = {
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
 
-    // auto login after signup
+    // after signup
     localStorage.setItem("token", "fake-jwt-token");
     localStorage.setItem(
       "user",

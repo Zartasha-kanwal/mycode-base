@@ -20,7 +20,7 @@ export function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-// Match these routes
+// routes
 export const config = {
   matcher: ["/", "/login", "/signup", "/dashboard/:path*"],
 };

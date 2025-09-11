@@ -70,39 +70,63 @@ $text-dark: #1e293b;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   }
 
-  > h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin: 0;
-    padding: 0.5rem 1rem;
-    color: #1e293b !important;
-    border-left: 6px solid #1677ff;
-    border-radius: 0 12px 12px 0;
+  .pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
     background: rgba(22, 119, 255, 0.1);
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0;
+      padding: 0.5rem 1rem;
+      color: #1e293b !important;
+      border-left: 6px solid #1677ff;
+      border-radius: 0 12px 12px 0;
+      line-height: 1; 
+    }
+
+    button {
+      height: 42px; 
+      display: flex;
+      align-items: center;
+    }
   }
 }
 
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .pageCard {
+    padding: 0.75rem;
+
+    .pageHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h1 {
+        font-size: 1.25rem;
+        padding: 0.75rem;
+      }
+
+      button {
+        align-self: stretch;
+      }
+    }
+  }
+}
 
 /* MOBILE RESPONSIVENESS */
 
 @media (max-width: 768px) {
   .content {
     margin-top: 3rem;
-    padding: 0.5rem;    
-    gap: 3rem;       
-  }
-
-  .pageCard {
-    padding: 0.75rem; 
-
-    > h1 {
-      font-size: 1.25rem;   
-      padding: 1rem 0.75rem; 
-    }
+    padding: 0.5rem;
+    gap: 3rem;
   }
 }
-
-
 
 /* Status Badges */
 .status {
