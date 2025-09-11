@@ -1,5 +1,6 @@
 "use client";
-import { Table, Button, Space, Tag } from "antd";
+
+import { Table, Button, Space, Tag, Popconfirm } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
 export interface Customer {
@@ -45,21 +46,21 @@ export default function TableComponent({ data, onEdit, onDelete }: TableProps) {
           <Button type="link" onClick={() => onEdit?.(record)}>
             Edit
           </Button>
-          <Button type="link" danger onClick={() => onDelete?.(record)}>
-            Delete
-          </Button>
+          <Popconfirm
+            title="Are you sure?"
+            description="This will permanently delete the customer."
+            okText="Yes, Delete"
+            cancelText="Cancel"
+            onConfirm={() => onDelete?.(record)}
+          >
+            <Button type="link" danger>
+              Delete
+            </Button>
+          </Popconfirm>
         </Space>
       ),
     },
   ];
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      rowKey="key"
-      scroll={{ x: "max-content" }}
-      pagination={false}
-    />
-  );
+  return <Table columns={columns} dataSource={data} rowKey="key" />;
 }
