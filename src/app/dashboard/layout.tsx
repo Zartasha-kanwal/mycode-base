@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { Layout, Avatar, Dropdown, Menu } from "antd";
+import { Layout, Avatar, Dropdown} from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { auth } from "../lib/auth";

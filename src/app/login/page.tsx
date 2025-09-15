@@ -69,7 +69,7 @@ export default function LoginPage() {
         </Form>
 
         <div className={styles.link}>
-          Don't have an account? <a href="/signup">Sign Up</a>
+          Don&apos;t have an account? <a href="/signup">Sign Up</a>
         </div>
       </Card>
     </div>
