@@ -3,12 +3,11 @@
 import { useState, useEffect } from "react";
 import TableComponent, { Customer } from "../Components/Table/Table";
 import AppModal from "../Components/AppModal";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Select, App } from "antd";
 import styles from "./dashboard.module.scss";
 
 const { Option } = Select;
 
-// customers
 const defaultCustomers: Customer[] = [
   {
     key: "1",
@@ -37,7 +36,8 @@ const defaultCustomers: Customer[] = [
 ];
 
 export default function DashboardPage() {
-  
+  const { message } = App.useApp(); //  use message hook
+
   const [customers, setCustomers] = useState<Customer[]>(() => {
     if (typeof window !== "undefined") {
       if (process.env.NODE_ENV === "development") {
@@ -64,10 +64,11 @@ export default function DashboardPage() {
     setCustomers((prev) =>
       prev.map((c) => (c.key === editingCustomer.key ? { ...c, ...values } : c))
     );
+    message.success(`${editingCustomer.name} updated successfully ✅`);
     setEditingCustomer(null);
   };
 
-  //  Add new customer
+  // Add new customer
   const handleAdd = async (values: Omit<Customer, "key" | "no">) => {
     const newCustomer: Customer = {
       key: Date.now().toString(),
@@ -75,10 +76,11 @@ export default function DashboardPage() {
       ...values,
     };
     setCustomers((prev) => [...prev, newCustomer]);
+    message.success(`${newCustomer.name} added successfully 🎉`); 
     setIsAdding(false);
   };
 
-  //  Delete customer
+  // Delete customer 
   const handleDelete = (customer: Customer) => {
     setCustomers((prev) =>
       prev
@@ -102,7 +104,8 @@ export default function DashboardPage() {
         onDelete={handleDelete}
       />
 
-      {/* Edit Customer Modal */}
+     {/* Edit Customer Modal */}
+
       <AppModal
         title="Edit Customer"
         open={!!editingCustomer}
@@ -147,7 +150,8 @@ export default function DashboardPage() {
         )}
       </AppModal>
 
-      {/* Add Customer Modal */}
+     {/* Add Customer Modal */}
+
       <AppModal
         title="Add Customer"
         open={isAdding}

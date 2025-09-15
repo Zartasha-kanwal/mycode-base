@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Form, Input, Button, Card, Alert, message } from "antd";
+import { Form, Input, Button, Card, Alert, App } from "antd"; 
 import { auth } from "../lib/auth";
 import styles from "./login.module.scss";
 
@@ -15,10 +15,13 @@ export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
+  // Get message API from App.useApp()
+  const { message } = App.useApp();
+
   const onFinish = (values: LoginFormValues) => {
     try {
       auth.login(values);
-      message.success("Login successful!");
+      message.success("Login successful!"); 
       router.push("/dashboard");
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -66,7 +69,7 @@ export default function LoginPage() {
         </Form>
 
         <div className={styles.link}>
-          Don’t have an account? <a href="/signup">Sign Up</a>
+          Don't have an account? <a href="/signup">Sign Up</a>
         </div>
       </Card>
     </div>

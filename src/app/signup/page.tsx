@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Form, Input, Button, Card, message, Alert } from "antd";
+import { Form, Input, Button, Card, Alert, App } from "antd"; 
 import { auth } from "../lib/auth";
 import styles from "./page.module.scss";
 
@@ -15,18 +15,21 @@ export default function SignupPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
+  // Get message API from App.useApp()
+  const { message } = App.useApp();
+
   const onFinish = (values: SignupFormValues) => {
     try {
-      console.log(" Signup attempt:", values);
+      console.log("Signup attempt:", values);
       auth.register(values);
       message.success("Account created! Redirecting to dashboard...");
       router.push("/dashboard");
     } catch (err: unknown) {
       if (err instanceof Error) {
-        console.error(" Signup error:", err.message);
+        console.error("Signup error:", err.message);
         setError(err.message);
       } else {
-        console.error(" Unknown signup error:", err);
+        console.error("Unknown signup error:", err);
         setError("An unexpected error occurred");
       }
     }

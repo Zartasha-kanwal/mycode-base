@@ -1,6 +1,6 @@
 "use client";
 
-import { Table, Button, Space, Tag, Popconfirm } from "antd";
+import { Table, Button, Space, Tag, Popconfirm, App } from "antd"; 
 import type { ColumnsType } from "antd/es/table";
 
 export interface Customer {
@@ -19,6 +19,9 @@ interface TableProps {
 }
 
 export default function TableComponent({ data, onEdit, onDelete }: TableProps) {
+  //  use the hook from App
+  const { message } = App.useApp();
+
   const columns: ColumnsType<Customer> = [
     { title: "No", dataIndex: "no", key: "no" },
     { title: "Name", dataIndex: "name", key: "name" },
@@ -43,7 +46,13 @@ export default function TableComponent({ data, onEdit, onDelete }: TableProps) {
       key: "actions",
       render: (_, record) => (
         <Space>
-          <Button type="link" onClick={() => onEdit?.(record)}>
+          <Button
+            type="link"
+            onClick={() => {
+              onEdit?.(record);
+              message.info(`Editing ${record.name}...`);
+            }}
+          >
             Edit
           </Button>
           <Popconfirm
@@ -51,7 +60,10 @@ export default function TableComponent({ data, onEdit, onDelete }: TableProps) {
             description="This will permanently delete the customer."
             okText="Yes, Delete"
             cancelText="Cancel"
-            onConfirm={() => onDelete?.(record)}
+            onConfirm={() => {
+              onDelete?.(record);
+              message.success(`${record.name} has been removed successfully.`);
+            }}
           >
             <Button type="link" danger>
               Delete
@@ -62,5 +74,12 @@ export default function TableComponent({ data, onEdit, onDelete }: TableProps) {
     },
   ];
 
-  return <Table columns={columns} dataSource={data} rowKey="key" />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      rowKey="key"
+      scroll={{ x: "max-content" }}
+    />
+  );
 }
