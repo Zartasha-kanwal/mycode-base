@@ -79,6 +79,7 @@ export default function TableComponent({ data, onEdit, onDelete }: TableProps) {
       columns={columns}
       dataSource={data}
       rowKey="key"
+      pagination={false}
       scroll={{ x: "max-content" }}
     />
   );

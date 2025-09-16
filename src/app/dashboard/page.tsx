@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import TableComponent, { Customer } from "../Components/Table/Table";
 import AppModal from "../Components/AppModal";
-import { Form, Input, Button, Select, App } from "antd";
+import { Form, Input, Select, App } from "antd";
 import styles from "./dashboard.module.scss";
+import SearchFilter from "../Components/SearchFilter/SearchFilter";
+import Button from "../Components/Button/Button";
 
 const { Option } = Select;
 
@@ -22,7 +24,7 @@ const defaultCustomers: Customer[] = [
     no: 2,
     name: "Anna Nestrom",
     phone: "+1 324-234-2333",
-    email: "Jhondoe2@gmail.com",
+    email: "AnnaNestrom@gmail.com",
     status: "Active",
   },
   {
@@ -30,8 +32,40 @@ const defaultCustomers: Customer[] = [
     no: 3,
     name: "Sophia Reynolds",
     phone: "+1 324-234-2333",
-    email: "Jhondoe3@gmail.com",
+    email: "SophiaReynolds@gmail.com",
     status: "Failed",
+  },
+  {
+    key: "4",
+    no: 4,
+    name: "Michael Smith",
+    phone: "+1 324-234-2333",
+    email: "michaelsmith@gmail.com",
+    status: "Active",
+  },
+  {
+    key: "5",
+    no: 5,
+    name: "Emily Johnson",
+    phone: "+1 324-234-2333",
+    email: "emilyjohnson@gmail.com",
+    status: "Waiting",
+  },
+  {
+    key: "6",
+    no: 6,
+    name: "David Brown",
+    phone: "+1 324-234-2333",
+    email: "davidbrown@gmail.com",
+    status: "Failed",
+  },
+  {
+    key: "7",
+    no: 7,
+    name: "Olivia Wilson",
+    phone: "+1 324-234-2333",
+    email: "oliviawilson@gmail.com",
+    status: "Active",
   },
 ];
 
@@ -76,11 +110,11 @@ export default function DashboardPage() {
       ...values,
     };
     setCustomers((prev) => [...prev, newCustomer]);
-    message.success(`${newCustomer.name} added successfully 🎉`); 
+    message.success(`${newCustomer.name} added successfully 🎉`);
     setIsAdding(false);
   };
 
-  // Delete customer 
+  // Delete customer
   const handleDelete = (customer: Customer) => {
     setCustomers((prev) =>
       prev
@@ -93,10 +127,34 @@ export default function DashboardPage() {
     <div className={styles.pageCard}>
       <div className={styles.pageHeader}>
         <h1>My Customers</h1>
-        <Button type="primary" onClick={() => setIsAdding(true)}>
-          + Add Customer
-        </Button>
+        <Button onClick={() => setIsAdding(true)}>+ Add Customer</Button>
       </div>
+
+      {/*Search + Filter*/}
+      <SearchFilter
+        onSearch={(query) => {
+          if (!query) {
+            // if input is cleared, reset
+            setCustomers(defaultCustomers);
+            return;
+          }
+
+          const filtered = defaultCustomers.filter(
+            (c) =>
+              c.name.toLowerCase().includes(query.toLowerCase()) ||
+              c.email.toLowerCase().includes(query.toLowerCase())
+          );
+
+          setCustomers(filtered);
+        }}
+        onFilter={(status) => {
+          if (status === "All") {
+            setCustomers(defaultCustomers);
+          } else {
+            setCustomers(defaultCustomers.filter((c) => c.status === status));
+          }
+        }}
+      />
 
       <TableComponent
         data={customers}
@@ -104,7 +162,7 @@ export default function DashboardPage() {
         onDelete={handleDelete}
       />
 
-     {/* Edit Customer Modal */}
+      {/* Edit Customer Modal */}
 
       <AppModal
         title="Edit Customer"
@@ -150,7 +208,7 @@ export default function DashboardPage() {
         )}
       </AppModal>
 
-     {/* Add Customer Modal */}
+      {/* Add Customer Modal */}
 
       <AppModal
         title="Add Customer"
